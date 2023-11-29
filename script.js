@@ -7,6 +7,7 @@ const table = document.createElement('table');
 const tableBody = document.createElement('tbody');
 
 let sortType = 'fio';
+let activeSortButton = document.querySelector(`[data-sortBy="${sortType}"]`);
 
 const addTableStyles = () => {
   table.classList.add('table', 'table-dark');
@@ -77,10 +78,6 @@ const renderTable = arrData => {
   table.append(tableBody);
 };
 
-const handleSortButtonClick = button => {
-  sortType = button.getAttribute('data-sortBy');
-  renderTable(listData);
-};
 
 const getNewUserData = addForm => {
   const formData = new FormData(addForm);
@@ -107,6 +104,16 @@ const validateFormData = form => {
     result = false;
   };
 
+
+  const validateSymbols = input => {
+    const validInputRegex = /^[a-zA-Z\-']+$/;
+    if (!validInputRegex.test(input.value) && !input.dataset.minAge) {
+      validateInput(
+        input,
+        'Дозволено лише літери, символи "-" та \'',
+      );
+    }
+  }
   const validateMinLength = input => {
     const trimmedValue = input.value.trim().length;
     if (trimmedValue < input.dataset.minLength) {
@@ -131,6 +138,7 @@ const validateFormData = form => {
 
   for (let input of allInputs) {
     removeError(input);
+    validateSymbols(input);
     validateMinLength(input);
     validateMinAge(input);
     if (input.dataset.required === 'true') {
@@ -157,9 +165,24 @@ const createError = (input, text) => {
   parent.append(errorText);
 };
 
+const handleSortButtonClick = button => {
+  const sortBy = button.getAttribute('data-sortBy');
+  if(sortType !== sortBy ) {
+    if (activeSortButton) {
+      activeSortButton.classList.remove('active');
+    }
+    activeSortButton = button;
+    button.classList.add('active');
+    sortType = sortBy;
+    renderTable(listData);
+  }
+  
+};
+
+
 const handleFormSubmit = e => {
   e.preventDefault();
-  if (validateFormData(addForm) == true) {
+  if (validateFormData(addForm)) {
     const newUser = getNewUserData(addForm);
     addNewUserToList(newUser);
     renderTable(listData);

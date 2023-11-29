@@ -14,3 +14,7 @@
 .input-box.error input {
   border-color:   red;;
 }
+.btn.active {
+    background-color: gold;
+    color: #000000;
+}
