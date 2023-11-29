@@ -1,0 +1,16 @@
+.error-text {
+   color: red;
+   margin-top: 5px;
+}
+
+
+.input-box:not(:last-child) {
+   margin-bottom: 30px;
+}
+
+.add-btn, .btn-list {
+   margin-bottom: 30px;
+}
+.input-box.error input {
+  border-color:   red;;
+}
