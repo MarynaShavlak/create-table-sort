@@ -106,7 +106,7 @@ const validateFormData = form => {
 
 
   const validateSymbols = input => {
-    const validInputRegex = /^[a-zA-Z\-']+$/;
+    const validInputRegex = /^[a-zA-Zа-яА-ЯіІїЇ\-']+$/;
     if (!validInputRegex.test(input.value) && !input.dataset.minAge) {
       validateInput(
         input,
@@ -186,6 +186,7 @@ const handleFormSubmit = e => {
     const newUser = getNewUserData(addForm);
     addNewUserToList(newUser);
     renderTable(listData);
+    addForm.reset();
   }
 };
 
